@@ -1,11 +1,12 @@
 function rawr --description "A command-line system information tool written in fish"
-    read name _ linux_version_string info </proc/version
+    read name other linux_version_string info </proc/version
     set kernel (string split -r -m1 \- $linux_version_string)[1]
 
     set cros 
 
     if string match -q "*Chromium OS*" $info
         set -f NAME "Chrome OS"
+        set -f XDG_CURRENT_DESKTOP "aura shell" 
     else if test -r /etc/os-release
         for row in (read -z < /etc/os-release)
             set -l kv (string split -m 1 \= $row)
@@ -13,9 +14,9 @@ function rawr --description "A command-line system information tool written in f
         end
     end
 
-    echo (set_color -o red)"  os"(set_color normal)" ~ $NAME"
-    echo (set_color -o red)"  sh"(set_color normal)" ~ "(string split / $SHELL)[-1]
-    echo (set_color -o red)"  de"(set_color normal)" ~ $XDG_CURRENT_DESKTOP"
+    echo (set_color -o red)"  os"(set_color normal)" ~ $NAME $VERSION_ID"
+    echo (set_color -o red)"  sh"(set_color normal)" ~ fish $FISH_VERSION"
+    echo (set_color -o red)"  de"(set_color normal)" ~ "(string lower $XDG_CURRENT_DESKTOP)
     echo (set_color -o red)"  kn"(set_color normal)" ~ "(string split -m1 \- $kernel)[1]
     echo ""
     echo "        . "
