@@ -19,7 +19,7 @@ function rawr --description "A command-line system information tool written in f
         echo (set_color -o red)"  de"(set_color normal)" ~ "(string lower $XDG_CURRENT_DESKTOP)
     end
     printf (set_color -o red)"  kn"(set_color normal)" ~ "(string split -m1 \- $kernel)[1]"\n\n"
-    if test "$_flag_emoji" = "--emoji"; or test "$_flag_emoji" = "-e"
+    if set -ql _flag_emoji
         # TODO: Check if fish_emoji_width is 2
         printf "  🐲 ~ Welcome to "(prompt_hostname)", "(set_color red)"$USER"(set_color normal)"\n\n"
     else
